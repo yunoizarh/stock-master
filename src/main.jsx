@@ -6,9 +6,12 @@ import { router } from "./router.jsx";
 import "primereact/resources/themes/lara-light-blue/theme.css"; // or any other theme
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { ProductsContextProvider } from "./context/ProductsContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ProductsContextProvider>
+      <RouterProvider router={router} />
+    </ProductsContextProvider>
   </StrictMode>
 );

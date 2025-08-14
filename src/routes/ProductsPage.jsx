@@ -4,12 +4,12 @@ import ProductsView from "../components/ProductsView";
 import supabase from "../supabase-client";
 import { useEffect, useState } from "react";
 import AddProducts from "../components/AddProducts";
+import { useProductsContext } from "../context/ProductsContext";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    fetchProducts();
+  const { products } = useProductsContext();
 
+  useEffect(() => {
     const channel = supabase
       .channel("products-modification")
       .on(
@@ -33,24 +33,15 @@ const ProductsPage = () => {
     return () => supabase.removeChannel(channel);
   }, []);
 
-  const fetchProducts = async () => {
-    try {
-      const { data, error } = await supabase.from("products").select();
-      setProducts(data);
-      if (error) throw error;
-    } catch (error) {
-      console.error("checking what's wrong...", error);
-    }
-  };
   return (
     <section className="md:flex h-screen bg-[#f2f2f2]">
       <SideBar />
 
-      <section className="flex flex-col  py-3 mx-[2%] md:mx-[1%] overflow-hidden">
-        <Header />
+      <section className="flex flex-col h-screen py-3 mx-[2%] md:mx-2 overflow-hidden">
+        <Header className="flex-shrink-0" />
 
-        <main className="bg-white flex flex-col flex-1 my-1 p-4 rounded-md shadow-sm overflow-hidden">
-          <div className="flex justify-between items-center flex-shrink-0">
+        <main className="bg-white flex flex-col flex-1 my-1 p-4 rounded-md shadow-sm overflow-hidden ">
+          <div className="flex justify-between items-center flex-shrink-0 ">
             <div>
               <h2 className="font-bold md:text-2xl my-2">
                 Products management

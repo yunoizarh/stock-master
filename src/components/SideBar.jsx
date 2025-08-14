@@ -1,22 +1,26 @@
 import {
   Menu,
-  ShoppingBasket,
+  ShoppingCart,
+  Handbag,
   Settings2,
   ChevronDown,
   House,
   Landmark,
   X,
+  ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
 import { useState } from "react";
-
+import logo from "../assets/logo.png";
 import { Link, useLocation } from "react-router";
 
 const menu = [
-  { name: "Dashboard", icon: <House />, link: "/" },
-  { name: "Products", icon: <ShoppingBasket />, link: "/products" },
+  { name: "Dashboard", icon: <House size={20} />, link: "/" },
+  { name: "Products", icon: <Handbag size={20} />, link: "/products" },
+  { name: "POS", icon: <ShoppingCart size={20} />, link: "/point-of-sale" },
   {
     name: "Inventory",
-    icon: <Landmark />,
+    icon: <Landmark size={20} />,
     submenu: [
       { name: "Add Inventory", link: "/add inventory" },
       { name: "All Inventory", link: "/all inventory" },
@@ -38,10 +42,14 @@ const SideBar = () => {
   return (
     <>
       {/* mobile toggle */}
-      <div className="md:hidden p-4">
+      <div className="md:hidden p-3 flex items-center gap-5">
         <button onClick={() => setMobileOpen(!mobileOpen)}>
           <Menu size={24} />
         </button>
+        <h2 className="font-bold text-2xl ">Stock Master</h2>
+        <div className="ml-auto ">
+          <img src={logo} alt="logo" className="w-20" />
+        </div>
       </div>
 
       {/* sidebar */}
@@ -53,12 +61,15 @@ const SideBar = () => {
         } flex-shrink-0`}
       >
         {/* collapse toggle */}
-        <div className="hidden md:flex justify-end p-4">
+        <div className="hidden md:flex items-center p-4">
+          <div className=" ">
+            <img src={logo} alt="logo" className="w-20" />
+          </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="text-gray-400"
+            className="text-gray-400 ml-auto"
           >
-            <Menu size={20} />
+            {collapsed ? <ArrowRight size={24} /> : <ArrowLeft size={24} />}
           </button>
         </div>
         {/* close mobile menu */}
@@ -79,7 +90,7 @@ const SideBar = () => {
                   location.pathname === item.link ? "bg-[#e7e3e3]" : null
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
+                <span className="">{item.icon}</span>
                 {!collapsed && (
                   <span className="ml-3 flex-1 text-left transition-all duration-300">
                     {item.name}
