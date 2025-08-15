@@ -202,148 +202,94 @@
   },
 ];
 
-import SideBar from "../components/SideBar";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-const PointOfSalesPage = () => {
-  const products = [
+import { Carousel } from "primereact/carousel";
+import { Tag } from "primereact/tag";
+import { ProductService } from "./service/ProductService";
+
+export default function BasicDemo() {
+  const [products, setProducts] = useState([]);
+  const responsiveOptions = [
     {
-      id: 1,
-      name: "Smash Beef Burger",
-      desc: "Double patty, cheese, toasted bun",
-      price: 38000,
-      image: "/images/smash-beef-burger.jpg",
+      breakpoint: "1400px",
+      numVisible: 2,
+      numScroll: 1,
     },
     {
-      id: 2,
-      name: "Spicy Chicken Burger",
-      desc: "Crispy chicken, spicy mayo sauce",
-      price: 37000,
-      image: "/images/spicy-chicken-burger.jpg",
+      breakpoint: "1199px",
+      numVisible: 3,
+      numScroll: 1,
     },
     {
-      id: 3,
-      name: "Egg Mayo Burger",
-      desc: "Soft egg, creamy mayo, bun",
-      price: 32000,
-      image: "/images/egg-mayo-burger.jpg",
+      breakpoint: "767px",
+      numVisible: 2,
+      numScroll: 1,
     },
-    // ... add the rest
+    {
+      breakpoint: "575px",
+      numVisible: 1,
+      numScroll: 1,
+    },
   ];
-  return (
-    <>
-      <section className="md:flex flex-col h-screen bg-[#f2f2f2]">
-        <div className="flex min-h-screen">
-          <SideBar />
 
-          {/* Main content */}
-          <div className="flex-1 p-4 md:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-2xl font-semibold">Menu</h1>
-              <input
-                type="text"
-                placeholder="Search products by name or type"
-                className="border rounded-md px-3 py-2 w-80"
-              />
-            </div>
-            {/* Filter Tabs */}
-            <div className="flex gap-2 mb-6">
-              {[
-                "All Menu",
-                "Favorites",
-                "Burgers",
-                "Sandwich",
-                "Snacks",
-                "Vegetarian",
-                "Drinks",
-                "Dessert",
-              ].map((tab) => (
-                <button
-                  key={tab}
-                  className="px-4 py-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200"
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>{" "}
-            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-              {products.map((product) => (
-                <Card key={product.id} className="flex flex-col">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-32 object-cover rounded-t-xl"
-                  />
-                  <div className="flex flex-col flex-1">
-                    <h2 className="font-semibold">{product.name}</h2>
-                    <p className="text-sm text-gray-500 flex-1">
-                      {product.desc}
-                    </p>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="font-medium">
-                        Rp {product.price.toLocaleString()}
-                      </span>
-                      <Button size="sm" onClick={() => addToOrder(product)}>
-                        +
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+  const getSeverity = (product) => {
+    switch (product.inventoryStatus) {
+      case "INSTOCK":
+        return "success";
 
-          {/* Order summary */}
-          <div className="w-80 bg-white border-l p-4">
-            <h2 className="font-semibold mb-4">Order Details</h2>
-            <div className="space-y-2"></div>
-            <div className="mt-4 border-t pt-2">
-              <div className="flex justify-between">
-                <span>Subtotal</span>
-                <span> ₦ </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tax (10%)</span>
-                <span> ₦ </span>
-              </div>
-              <div className="flex justify-between font-semibold mt-2">
-                <span>Total</span>
-                <span> ₦ </span>
-              </div>
-            </div>
-            <Button className="w-full mt-4">Proceed Payment</Button>
+      case "LOWSTOCK":
+        return "warning";
+
+      case "OUTOFSTOCK":
+        return "danger";
+
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    ProductService.getProductsSmall().then((data) =>
+      setProducts(data.slice(0, 9))
+    );
+  }, []);
+
+  const productTemplate = (product) => {
+    return (
+      <div className="border-1 surface-border border-round m-2 text-center py-5 px-3">
+        <div className="mb-3">
+          <img
+            src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`}
+            alt={product.name}
+            className="w-6 shadow-2"
+          />
+        </div>
+        <div>
+          <h4 className="mb-1">{product.name}</h4>
+          <h6 className="mt-0 mb-3">${product.price}</h6>
+          <Tag
+            value={product.inventoryStatus}
+            severity={getSeverity(product)}
+          ></Tag>
+          <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
+            <Button icon="pi pi-search" rounded />
+            <Button icon="pi pi-star-fill" rounded severity="success" />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    );
+  };
+
+  return (
+    <div className="card space-x-2">
+      <Carousel
+        value={products}
+        numVisible={3}
+        numScroll={3}
+        responsiveOptions={responsiveOptions}
+        itemTemplate={productTemplate}
+      />
+    </div>
   );
-};
-
-export default PointOfSalesPage;
-
-// export default function OrdersPage() {
-//   const [orderItems, setOrderItems] = useState([]);
-
-//   const addToOrder = (product) => {
-//     setOrderItems((prev) => {
-//       const existing = prev.find((item) => item.id === product.id);
-//       if (existing) {
-//         return prev.map((item) =>
-//           item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-//         );
-//       }
-//       return [...prev, { ...product, qty: 1 }];
-//     });
-//   };
-
-//   const subtotal = orderItems.reduce(
-//     (acc, item) => acc + item.price * item.qty,
-//     0
-//   );
-//   const tax = subtotal * 0.1;
-
-//   return (
-
-//   );
-// }
+}

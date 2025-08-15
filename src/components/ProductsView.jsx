@@ -38,7 +38,7 @@ const ProductsView = ({ allProducts }) => {
   const statusTemplate = (rowData) => {
     let status = "";
     if (rowData.stock_quantity === 0) {
-      status = "Out of stock";
+      status = "Out of Stock";
     } else if (rowData.stock_quantity <= rowData.reorder_threshold) {
       status = "Low Stock";
     } else {
@@ -77,7 +77,7 @@ const ProductsView = ({ allProducts }) => {
         <Card
           key={product.id}
           title={product.name}
-          className="p-2 shadow-md border border-gray-100"
+          className=" shadow-md border border-gray-100"
         >
           <p className="text-lg mb-1">₦{product.sales_price}</p>
           <p className="text-lg mb-1">Stock: {product.stock_quantity}</p>
@@ -124,7 +124,7 @@ const ProductsView = ({ allProducts }) => {
               options={allColumns}
               optionLabel="header"
               maxSelectedLabels={3}
-              className="w-full md:w-20rem"
+              className="w-full md:w-20rem "
             />
           </OverlayPanel>
         </div>

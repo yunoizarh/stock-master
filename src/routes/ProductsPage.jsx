@@ -7,7 +7,7 @@ import AddProducts from "../components/AddProducts";
 import { useProductsContext } from "../context/ProductsContext";
 
 const ProductsPage = () => {
-  const { products } = useProductsContext();
+  const { products, setProducts } = useProductsContext();
 
   useEffect(() => {
     const channel = supabase
@@ -53,9 +53,15 @@ const ProductsPage = () => {
             <AddProducts products={products} />
           </div>
 
-          <div className="flex-1 overflow-y-auto overflow-x-auto md:overflow-x-hidden w-full">
-            <ProductsView allProducts={products} />
-          </div>
+          {products.length > 0 ? (
+            <div className="flex-1 overflow-y-auto overflow-x-auto md:overflow-x-hidden w-full">
+              <ProductsView allProducts={products} />
+            </div>
+          ) : (
+            <p className="flex justify-center items-center text-lg">
+              Loading....
+            </p>
+          )}
         </main>
       </section>
     </section>

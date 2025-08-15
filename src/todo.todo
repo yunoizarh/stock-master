@@ -3,8 +3,8 @@ add accecibility features for screen readers
 look for how you can make the order details section work on mobile(if it's a modal , you won't be able to add multiple products ) so look for a way to make it work
 later , in the pos page , during sales , let the salesperson select whether it's packet(pack of something) or pieces that the buyer ants to buy
 
-later tasks
--get the time and data for the order
--make the pay section appear on when a product has been selected
--do the logic for the subtotal and total
--do the "product search " functionality and list the categories above for easy selection
+# later tasks
+-get the time and data for the order ---- DONE
+-make the pay section appear on when a product has been selected ---- DONE
+-do the logic for the subtotal and total ---- DONE
+-do the "product search " functionality and list the categories above for easy selection ---- DONE

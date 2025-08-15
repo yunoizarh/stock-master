@@ -17,7 +17,11 @@ import { Link, useLocation } from "react-router";
 const menu = [
   { name: "Dashboard", icon: <House size={20} />, link: "/" },
   { name: "Products", icon: <Handbag size={20} />, link: "/products" },
-  { name: "POS", icon: <ShoppingCart size={20} />, link: "/point-of-sale" },
+  {
+    name: "Point of Sales(POS)",
+    icon: <ShoppingCart size={20} />,
+    link: "/point-of-sale",
+  },
   {
     name: "Inventory",
     icon: <Landmark size={20} />,
