@@ -1,11 +1,11 @@
 import SideBar from "../components/SideBar";
-import { Search, Plus, Minus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { useProductsContext } from "../context/ProductsContext";
 import cocacola from "../assets/cocacola-image.jpeg";
 import { useState } from "react";
 import OrderDetails from "../components/OrderDetails";
 import PosCategories from "../components/PosCategories";
-import PosSearch from "../components/PosSearch";
+import SearchComponent from "../components/SearchComponent";
 
 const PointOfSalesPage = () => {
   const { products } = useProductsContext();
@@ -49,7 +49,7 @@ const PointOfSalesPage = () => {
     const matchesCategory =
       selectedCategory === "All" || p.category === selectedCategory;
     const matchesSearch =
-      p.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.category.toLowerCase().includes(searchTerm.toLowerCase());
 
     return matchesCategory && matchesSearch;
@@ -70,7 +70,11 @@ const PointOfSalesPage = () => {
               </p>
             </div>
 
-            <PosSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <SearchComponent
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              placeholder="Search Product by Name or Category"
+            />
           </div>
 
           <main className="bg-white flex flex-col flex-1 my-1 p-4 rounded-md shadow-sm overflow-hidden ">

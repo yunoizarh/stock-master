@@ -282,7 +282,7 @@ export default function BasicDemo() {
   };
 
   return (
-    <div className="card space-x-2">
+    <div className="card ">
       <Carousel
         value={products}
         numVisible={3}

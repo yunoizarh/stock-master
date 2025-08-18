@@ -9,6 +9,7 @@ import { Tag } from "primereact/tag";
 import { Card } from "primereact/card";
 import { Pencil, Trash2 } from "lucide-react";
 import { Search } from "lucide-react";
+import SearchComponent from "./SearchComponent";
 
 const ProductsView = ({ allProducts }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -20,6 +21,7 @@ const ProductsView = ({ allProducts }) => {
     { field: "stock_quantity", header: "Stock" },
   ];
   const [selectedColumns, setSelectedColumns] = useState(allColumns);
+  const [searchTerm, setSearchTerm] = useState("");
   const op = useRef(null);
 
   const categoryOptions = [
@@ -30,10 +32,15 @@ const ProductsView = ({ allProducts }) => {
     })),
   ];
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? allProducts
-      : allProducts.filter((p) => p.category === selectedCategory);
+  const filteredProducts = allProducts.filter((p) => {
+    const matchesCategory =
+      selectedCategory === "All" || p.category === selectedCategory;
+    const matchesSearch = p.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   const statusTemplate = (rowData) => {
     let status = "";
@@ -98,7 +105,7 @@ const ProductsView = ({ allProducts }) => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 space-y-2 md:space-y-0 md:items-center md:justify-between my-6">
+      <div className="flex flex-col md:flex-row gap-4 space-y-2 md:space-y-0 md:items-center md:justify-between my-6 pr-3">
         <Dropdown
           value={selectedCategory}
           options={categoryOptions}
@@ -147,16 +154,12 @@ const ProductsView = ({ allProducts }) => {
             onClick={() => setLayout("grid")}
           />
         </div>
-        <div className="relative w-full md:w-auto">
-          <span className="absolute inset-y-0 left-2 flex items-center text-gray-500">
-            <Search className="h-5 w-5" />
-          </span>
-          <input
-            type="text"
-            placeholder="Search Products"
-            className=" pl-10 pr-10 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+
+        <SearchComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          placeholder="Search Product"
+        />
       </div>
 
       <div className="mt-4 min-w-full">

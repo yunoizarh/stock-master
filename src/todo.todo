@@ -8,3 +8,7 @@ later , in the pos page , during sales , let the salesperson select whether it's
 -make the pay section appear on when a product has been selected ---- DONE
 -do the logic for the subtotal and total ---- DONE
 -do the "product search " functionality and list the categories above for easy selection ---- DONE
+-make the category get selected as well if it was searched
+--you should be able to scroll the categories carousel with touchpad(horizontally)
+--make the delete order button work
+--make payment button work

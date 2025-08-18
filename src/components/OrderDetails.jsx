@@ -110,7 +110,7 @@ const OrderDetails = ({ selectedProducts }) => {
               </span>
             </div>
             <button className="bg-green-500 text-white text-sm font-semibold rounded-md p-3 w-full mt-8">
-              Proceed Payment
+              PAY ({formattedCurrency})
             </button>
           </div>
         )}
